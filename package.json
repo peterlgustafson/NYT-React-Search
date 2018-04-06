@@ -1,0 +1,25 @@
+{
+  "name": "nyt-react-search",
+  "version": "1.0.0",
+  "description": "New York Times Article Search application using React.js, Node.js, Express &amp; MongoDB.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterlgustafson/NYT-React-Search.git"
+  },
+  "author": "me",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peterlgustafson/NYT-React-Search/issues"
+  },
+  "homepage": "https://github.com/peterlgustafson/NYT-React-Search#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongojs": "^2.5.0",
+    "morgan": "^1.9.0"
+  }
+}
