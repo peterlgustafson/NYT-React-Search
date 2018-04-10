@@ -20,12 +20,15 @@ class App extends Component {
     let end = (this.state.endDate == undefined) ? 0 : this.state.endDate;
     return fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${this.state.search}&begin_date=${this.state.startDate}0101&endDate=${this.state.endDate}1231&api-key=0eafe269423a4ff88b474ef6d3ceea7e`)
       .then(res => res.json())
-  .then(res => this.setState({articles: res.response.docs} ))
-}
+      .then(res => this.setState({ articles: res.response.docs }))
+  }
 
-  componenentDidMount() {
-    this.getArticles('jazz', '20180101')
-      .then(articles => this.setState({ articles }))
+  componentDidMount() {
+    // this.getArticles('jazz', '20180101')
+    this.showSavedArticles();
+    // .then(articles => this.setState({ articles }));
+
+
   }
 
   handleInputChange = event => {
@@ -34,21 +37,32 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
-    saveArticle = (event) => {
-      debugger;
-      const title = event.target.parentElement.children[0].textContent;
-      const snippet = event.target.parentElement.children[1].textContent;
-      const publicationDate = event.target.parentElement.children[2].textContent;
-      const url = event.target.parentElement.children[3].textContent;
+  saveArticle = (event) => {
+    debugger;
+    const title = event.target.parentElement.children[0].textContent;
+    const snippet = event.target.parentElement.children[1].textContent;
+    const publicationDate = event.target.parentElement.children[2].textContent;
+    const url = event.target.parentElement.children[3].textContent;
 
-        fetch("/api/articles", {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({title : title, snippet : snippet, publicationDate : publicationDate, url : url } )})
-        .then(res => res.json())
+    fetch("/api/articles", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title: title, snippet: snippet, publicationDate: publicationDate, url: url })
+    })
+      .then(res => res.json())
+  }
+
+  showSavedArticles = () => {
+    debugger;
+    return fetch("/api/savedarticles", {
+      method: 'GET'
+      // }).then(res => console.log(res));
+      // ())
+    }).then(res => res.json())
+      .then(res => console.log(res));
   }
 
 
@@ -74,22 +88,25 @@ class App extends Component {
 
 
         <h1>Results</h1>
-          {this.state.articles.map((art, ind) => <ul key={ind}> 
+        {this.state.articles.map((art, ind) => <ul key={ind}>
           <li> {art.headline.main}</li>
           <li> {art.snippet}</li>
           <li> {art.pub_date}</li>
           <li> {art.web_url}</li>
 
-            <button onClick={this.saveArticle}>Save</button>
-            
-</ul>
-)}
+          <button onClick={this.saveArticle}>Save</button>
 
-  <h1>Saved Articles</h1>
-  {}
+        </ul>
+        )}
+        <h1>Saved Articles</h1>
+
+        <ul>
+   
+
+        </ul>
       </div>
-    );
+      );
+    }
   }
-}
 
 export default App;

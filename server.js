@@ -29,10 +29,20 @@ db.on("error", function (error) {
 
 //Route to get all articles
 
-app.get('/api/articles', function (req, res) {
+app.get('/api/articles/:id', function (req, res) {
     // res.send('hi');
     db.articles.find({
         "_id": mongojs.ObjectID(req.params.id)
+    }, function (error, result) {
+        res.json(result);
+    });
+});
+
+//Route to get all saved articles
+
+app.get('/api/savedarticles', function (req, res) {
+    // res.send('hi');
+    db.articles.find({
     }, function (error, result) {
         res.json(result);
     });
