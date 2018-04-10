@@ -9,10 +9,13 @@ class App extends Component {
 
     this.state = {
       articles: [],
+      savedArticles: [],
       search: "",
       startDate: "",
       endDate: ""
     }
+    this.saveArticle = this.saveArticle.bind(this);
+    this.showSavedArticles = this.showSavedArticles.bind(this);
   }
 
   getArticles = (event) => {
@@ -27,8 +30,6 @@ class App extends Component {
     // this.getArticles('jazz', '20180101')
     this.showSavedArticles();
     // .then(articles => this.setState({ articles }));
-
-
   }
 
   handleInputChange = event => {
@@ -53,7 +54,11 @@ class App extends Component {
       body: JSON.stringify({ title: title, snippet: snippet, publicationDate: publicationDate, url: url })
     })
       .then(res => res.json())
-  }
+      .then(res => {
+        console.log(res);
+        return this.setState({savedArticles: [...this.state.savedArticles, res]})
+      });    
+    };
 
   showSavedArticles = () => {
     debugger;
@@ -62,11 +67,15 @@ class App extends Component {
       // }).then(res => console.log(res));
       // ())
     }).then(res => res.json())
-      .then(res => console.log(res));
+    .then(res => {
+      console.log(res);
+      return this.setState({savedArticles: [...this.state.savedArticles, res]})
+    })
   }
 
-
   render() {
+    console.log(this.state.savedArticles);
+    debugger;
     return (
       <div className="App">
         <header className="App-header">
@@ -98,10 +107,18 @@ class App extends Component {
 
         </ul>
         )}
-        <h1>Saved Articles</h1>
 
+        <h1>Saved Articles</h1>
         <ul>
-   
+        {this.state.savedArticles.length > 0 ? (this.state.savedArticles[0].map((item, ind)=>
+        <span key={ind}> 
+      <li>{item.title}</li>
+      <li>{item.snippet}</li>
+      <li>{item.publicationDate}</li>
+      <li>{item.url}</li>
+          </span>
+      )) : ''}
+        {/* {JSON.stringify(this.state.savedArticles)} */}
 
         </ul>
       </div>
