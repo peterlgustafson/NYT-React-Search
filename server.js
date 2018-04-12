@@ -25,6 +25,10 @@ db.on("error", function (error) {
     console.log("Database Error:", error);
 });
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('nytreact/build'));
+};
+
 //Routes
 
 //Route to get all articles
@@ -106,10 +110,11 @@ app.delete('/api/articles/:id', function (req, res) {
 });
 
 //De-facto catch all route
-//   app.get('*', function(req, res){
-//     res.sendFile(__dirname + './client/build/index.html');
+  app.get('*', function(req, res){
+    res.sendFile(__dirname + './nytreact/build/index.html');
+  })
 
 // Listen on port 3001
 app.listen(PORT, function () {
     console.log('🌎 ==> Now listening on PORT %s! Visit http://localhost:%s in your browser!', PORT, PORT);
-});
+})
